@@ -380,9 +380,15 @@ func (session *Session) graph(path string, method Method, params Params) (res Re
 	err = json.Unmarshal(response, &res)
 
 	if err != nil {
-		res = nil
-		err = fmt.Errorf("cannot format facebook response. %v", err)
-		return
+		// check is facebook just return boolean value
+		var boolResult bool
+		err = json.Unmarshal(response, &boolResult)
+		if err != nil {
+			res = nil
+			err = fmt.Errorf("cannot format facebook response. %v", err)
+			return
+		}
+		res["result"] = boolResult
 	}
 
 	// facebook returns an error
