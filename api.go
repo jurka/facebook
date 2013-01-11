@@ -388,6 +388,7 @@ func (session *Session) graph(path string, method Method, params Params) (res Re
 			err = fmt.Errorf("cannot format facebook response. %v", err)
 			return
 		}
+		res = make(Result)
 		res["result"] = boolResult
 	}
 
